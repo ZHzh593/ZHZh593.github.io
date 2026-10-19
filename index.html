@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080c13">
+  <meta name="referrer" content="no-referrer">
+  <title>正在进入 · DIYI</title>
+  <style>
+    :root { color-scheme: dark; --ink:#f0f4ee; --muted:#89999f; --cyan:#83edcf; --gold:#f0d9a4; --duration:3200ms; }
+    * { box-sizing:border-box; }
+    html { min-height:100%; background:#080c13; }
+    body { margin:0; min-height:100svh; font-family:Inter,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; color:var(--ink); overflow-x:hidden; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    a { color:inherit; }
+    button { font:inherit; }
+    :focus-visible { outline:2px solid var(--cyan); outline-offset:6px; }
+    .scene { position:fixed; inset:0; overflow:hidden; pointer-events:none; background:radial-gradient(ellipse at 50% 39%,#17323c80,transparent 57%),radial-gradient(ellipse at 16% 95%,#18221e55,transparent 48%),#080c13; }
+    .scene::before { content:""; position:absolute; inset:0; opacity:.16; background-image:linear-gradient(#8dbea81b 1px,transparent 1px),linear-gradient(90deg,#8dbea81b 1px,transparent 1px); background-size:72px 72px; mask-image:radial-gradient(ellipse,black,transparent 75%); }
+    .halo { position:absolute; width:min(80vw,860px); aspect-ratio:1; top:40%; left:50%; margin-top:calc(min(80vw,860px) / -2); margin-left:calc(min(80vw,860px) / -2); border-radius:50%; background:radial-gradient(circle,#4cbb9426,transparent 64%); animation:halo-breathe 6s ease-in-out infinite alternate; }
+    .beam { position:absolute; width:1px; height:100%; top:0; left:50%; background:linear-gradient(transparent,#83edcf12 32%,#83edcf25 45%,transparent 65%); }
+    .dust { position:absolute; width:3px; height:3px; border-radius:50%; background:#b6ffe6; opacity:0; animation:drift 5s linear infinite; left:var(--x); top:var(--y); animation-delay:var(--delay); }
+    .dust:nth-child(3n) { width:2px; height:2px; background:var(--gold); }
+    .shell { position:relative; width:min(1120px,100%); min-height:100svh; margin:auto; padding:32px max(24px,env(safe-area-inset-right)) 22px max(24px,env(safe-area-inset-left)); display:flex; flex-direction:column; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .brand { display:flex; align-items:center; gap:11px; font-size:19px; letter-spacing:.04em; font-weight:750; }
+    .brand svg { width:35px; height:35px; color:var(--cyan); }
+    .brand small { display:block; margin-top:3px; color:var(--muted); font-size:9px; letter-spacing:.18em; font-weight:450; }
+    .edition { display:flex; align-items:center; gap:9px; font-size:10px; letter-spacing:.2em; color:#a3b4af; }
+    .edition::before { content:""; width:5px; height:5px; background:var(--cyan); border-radius:50%; box-shadow:0 0 12px #83edcf88; }
+    main { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:28px 0 40px; }
+    .portal { position:relative; width:330px; max-width:100%; height:280px; margin-bottom:12px; animation:reveal 1.2s cubic-bezier(.16,1,.3,1) both; }
+    .portal-glow { position:absolute; inset:10px 35px; border-radius:50%; background:radial-gradient(circle,#79e1b92a,transparent 68%); }
+    .ring { position:absolute; left:50%; top:50%; width:246px; height:246px; margin:-123px; border:1px solid #8cebc42b; border-radius:50%; }
+    .ring::before { content:""; position:absolute; inset:-1px; border-radius:50%; border:1px solid transparent; border-top-color:#b2ffe6; border-right-color:#b2ffe638; mask-image:linear-gradient(135deg,black,transparent 65%); }
+    .ring-a { transform:rotateX(64deg) rotate(-26deg); }
+    .ring-b { width:284px; height:284px; margin:-142px; transform:rotateY(62deg) rotate(30deg); border-color:#f0d9a427; }
+    .ring-b::before { border-top-color:var(--gold); }
+    .ring-c { width:202px; height:202px; margin:-101px; border-style:dashed; opacity:.3; animation:spin 44s linear infinite; }
+    .satellite-track { position:absolute; inset:17px 42px; border-radius:50%; animation:spin 13s linear infinite; }
+    .satellite-track.second { inset:0 25px; animation-direction:reverse; animation-duration:21s; transform:rotate(100deg); }
+    .satellite { position:absolute; left:50%; top:-3px; width:7px; height:7px; border-radius:50%; background:var(--cyan); box-shadow:0 0 14px #83edcfa0; }
+    .second .satellite { width:4px; height:4px; background:var(--gold); }
+    .core-wrap { position:absolute; inset:70px 95px; display:grid; place-items:center; animation:float 5s ease-in-out infinite; }
+    .core { width:118px; height:118px; display:grid; place-items:center; position:relative; border-radius:30px; border:1px solid #adf7d969; background:linear-gradient(145deg,#345e59bb,#0b1a21ef 70%); box-shadow:inset 0 1px 1px #deffef38,0 0 70px #60d9b127,0 24px 44px #0006; transform:rotate(-8deg); }
+    .core::before { content:""; position:absolute; inset:8px; border:1px solid #bdf9de17; border-radius:23px; }
+    .core svg { width:59px; height:59px; color:#b6f7dc; transform:rotate(8deg); }
+    .portal-caption { position:absolute; bottom:0; left:0; right:0; font-size:9px; letter-spacing:.3em; color:#6f9690; }
+    .copy { animation:reveal 1s .15s both; }
+    .eyebrow { color:var(--cyan); font-size:10px; letter-spacing:.25em; margin:0 0 14px; }
+    h1 { font-size:clamp(29px,4.3vw,48px); font-weight:560; letter-spacing:.035em; margin:0; line-height:1.35; }
+    h1 span { background:linear-gradient(100deg,#dffded,#8ce6cc 55%,#f0d9a4); background-clip:text; -webkit-background-clip:text; color:transparent; }
+    .subtitle { font-size:14px; line-height:1.8; color:var(--muted); margin:16px 0 0; }
+    .transfer { width:min(360px,100%); margin-top:34px; animation:reveal 1s .3s both; }
+    .progress { height:2px; width:100%; overflow:hidden; border-radius:2px; background:#d0ffed15; }
+    .progress-fill { width:100%; height:100%; background:linear-gradient(90deg,#407a6b,var(--cyan),var(--gold)); transform:scaleX(0); transform-origin:left; }
+    .has-js .progress-fill { animation:progress var(--duration) linear forwards; }
+    .status-line { margin-top:13px; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:11px; color:var(--muted); }
+    #countdown { color:#c2d6cb; font-variant-numeric:tabular-nums; }
+    .actions { display:flex; justify-content:center; align-items:center; gap:22px; margin-top:24px; }
+    .enter { display:inline-flex; justify-content:center; align-items:center; gap:18px; padding:12px 20px; border-radius:10px; border:1px solid #b7f2d638; text-decoration:none; background:#8ae5c50d; font-size:13px; transition:background .2s,border-color .2s; }
+    .enter:hover { background:#8ae5c51e; border-color:#b7f2d679; }
+    .enter svg { width:15px; height:15px; }
+    .pause { padding:10px 0; border:0; border-bottom:1px solid #a7c7bc32; background:none; color:#97aba4; cursor:pointer; font-size:11px; }
+    .pause[hidden] { display:none; }
+    footer { display:flex; justify-content:space-between; gap:18px; color:#647770; font-size:10px; line-height:1.6; letter-spacing:.03em; }
+    footer a { text-decoration:none; }
+    footer a:hover { color:#b2d6c9; }
+    .is-paused .progress-fill { animation-play-state:paused; }
+    .is-hidden *, .is-hidden *::before, .is-hidden *::after { animation-play-state:paused !important; }
+    .is-reduced .scene .halo, .is-reduced .dust, .is-reduced .satellite-track, .is-reduced .ring-c, .is-reduced .core-wrap { animation:none; }
+    .is-reduced .portal, .is-reduced .copy, .is-reduced .transfer { animation:none; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-9px); } }
+    @keyframes halo-breathe { from { opacity:.45; transform:scale(.92); } to { opacity:1; transform:scale(1.06); } }
+    @keyframes drift { 0% { opacity:0; transform:translateY(24px); } 25%,65% { opacity:.45; } 100% { opacity:0; transform:translateY(-46px); } }
+    @keyframes reveal { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes progress { to { transform:scaleX(1); } }
+    @media(max-width:600px) {
+      .shell { padding-top:max(22px,env(safe-area-inset-top)); padding-bottom:max(18px,env(safe-area-inset-bottom)); }
+      .edition { font-size:9px; letter-spacing:.1em; }
+      main { padding:26px 0 30px; }
+      .portal { width:300px; height:255px; margin-bottom:10px; }
+      .core-wrap { inset:57px 80px; }
+      .satellite-track { inset:5px 27px; }
+      .satellite-track.second { inset:-4px 18px; }
+      .subtitle { font-size:12px; }
+      .transfer { margin-top:27px; max-width:310px; }
+      footer { font-size:9px; flex-wrap:wrap; justify-content:center; text-align:center; gap:4px 20px; }
+    }
+    @media(max-width:350px) { .portal { transform:scale(.85); margin:-15px 0; } .edition { display:none; } }
+    @media(max-height:690px) and (min-width:601px) { .portal { height:220px; margin-bottom:0; } main { padding:14px 0; } .core-wrap { inset:40px 95px; } .transfer { margin-top:22px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none !important; transition:none !important; } .progress-fill { transform:scaleX(1); } }
+  </style>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <div class="halo"></div><div class="beam"></div>
+    <i class="dust" style="--x:16%;--y:25%;--delay:0s"></i><i class="dust" style="--x:27%;--y:54%;--delay:-2s"></i>
+    <i class="dust" style="--x:77%;--y:24%;--delay:-1s"></i><i class="dust" style="--x:83%;--y:65%;--delay:-3s"></i>
+    <i class="dust" style="--x:37%;--y:20%;--delay:-4s"></i><i class="dust" style="--x:64%;--y:70%;--delay:-2.5s"></i>
+    <i class="dust" style="--x:9%;--y:72%;--delay:-1.5s"></i><i class="dust" style="--x:91%;--y:38%;--delay:-3.5s"></i>
+    <i class="dust" style="--x:23%;--y:82%;--delay:-.5s"></i><i class="dust" style="--x:72%;--y:84%;--delay:-4.5s"></i>
+  </div>
+  <div class="shell">
+    <header>
+      <div class="brand">
+        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect x="1" y="1" width="34" height="34" rx="10" fill="currentColor" fill-opacity=".08" stroke="currentColor" stroke-opacity=".3"/><path d="m18 9 9 5-9 5-9-5 9-5Zm-9 5v9l9 5 9-5v-9M18 19v9" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <div>DIYI<small>YOUR DAILY SPACE</small></div>
+      </div>
+      <div class="edition">A LITTLE MORE EVERY DAY</div>
+    </header>
+    <main>
+      <div class="portal" aria-hidden="true">
+        <div class="portal-glow"></div><div class="ring ring-a"></div><div class="ring ring-b"></div><div class="ring ring-c"></div>
+        <div class="satellite-track"><div class="satellite"></div></div><div class="satellite-track second"><div class="satellite"></div></div>
+        <div class="core-wrap"><div class="core"><svg viewBox="0 0 64 64" fill="none"><path d="m32 9 20 11-20 11L12 20 32 9Zm-20 11v23l20 12 20-12V20M32 31v24" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m22 25 20-11M42 25 22 14" stroke="currentColor" stroke-opacity=".28"/></svg></div></div>
+        <div class="portal-caption">SMALL MOMENTS. INFINITE POSSIBILITIES.</div>
+      </div>
+      <div class="copy">
+        <p class="eyebrow">WELCOME TO YOUR NEXT MOMENT</p>
+        <h1>让每一天，<span>都有回响。</span></h1>
+        <p class="subtitle">签到、成长、相遇。你的日常空间，即将打开。</p>
+      </div>
+      <div class="transfer">
+        <div class="progress" aria-hidden="true"><div class="progress-fill"></div></div>
+        <div class="status-line"><span id="status" role="status" aria-live="polite">即将进入 DIYI 登录页</span><span id="countdown" aria-hidden="true">DIYI / LOGIN</span></div>
+        <div class="actions">
+          <!-- 修改目标地址时，也要同步下面脚本中的 LOGIN_URL 与页脚链接。 -->
+          <a class="enter" href="https://49.233.192.94/login" id="enter">立即进入<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <button class="pause" type="button" id="pause" hidden>暂停跳转</button>
+        </div>
+        <noscript><p class="subtitle">请点击“立即进入”打开登录页。</p></noscript>
+      </div>
+    </main>
+    <footer><span>© 2026 DIYI · 把日常，变成值得期待的事</span><a href="https://49.233.192.94/login" id="destination">49.233.192.94 / LOGIN ↗</a></footer>
+  </div>
+  <script>
+    (() => {
+      'use strict';
+      // 唯一跳转目标。不要改成从 URL 的 next/redirect 参数读取，避免开放重定向。
+      const LOGIN_URL = 'https://49.233.192.94/login';
+      const NORMAL_DELAY = 3200;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const delay = reduced ? 600 : NORMAL_DELAY;
+      const preview = window.location.hash === '#preview';
+      const root = document.documentElement;
+      const status = document.getElementById('status');
+      const countdown = document.getElementById('countdown');
+      const pause = document.getElementById('pause');
+      const target = new URL(LOGIN_URL);
+      document.getElementById('enter').href = LOGIN_URL;
+      document.getElementById('destination').href = LOGIN_URL;
+      root.classList.add('has-js');
+      root.classList.toggle('is-reduced', reduced);
+      root.style.setProperty('--duration', delay + 'ms');
+      // 防止误把入口文件覆盖到目标登录页后无限刷新。
+      if (window.location.origin === target.origin && window.location.pathname.replace(/\/$/, '') === target.pathname.replace(/\/$/, '')) {
+        root.classList.add('is-paused');
+        status.textContent = '入口文件应放在独立目录，请恢复项目登录页';
+        return;
+      }
+      let paused = preview;
+      let remaining = delay;
+      let started = performance.now();
+      let redirectTimer;
+      let tickTimer;
+      function renderCountdown() { countdown.textContent = (Math.max(0, remaining - (paused ? 0 : performance.now() - started)) / 1000).toFixed(1) + ' S'; }
+      function clearTimers() { clearTimeout(redirectTimer); clearInterval(tickTimer); }
+      function schedule() {
+        started = performance.now();
+        redirectTimer = setTimeout(() => { clearTimers(); status.textContent = '正在打开登录页…'; window.location.replace(LOGIN_URL); }, remaining);
+        tickTimer = setInterval(renderCountdown, 100);
+        renderCountdown();
+      }
+      pause.hidden = false;
+      if (preview) {
+        root.classList.add('is-paused');
+        status.textContent = '动画预览 · 点击“立即进入”打开项目';
+        countdown.textContent = 'PREVIEW';
+        pause.textContent = '开始跳转';
+      } else { schedule(); }
+      pause.addEventListener('click', () => {
+        if (paused) {
+          paused = false;
+          status.textContent = '即将进入 DIYI 登录页';
+          pause.textContent = '暂停跳转';
+          root.classList.remove('is-paused');
+          schedule();
+        } else {
+          remaining = Math.max(0, remaining - (performance.now() - started));
+          paused = true;
+          clearTimers();
+          root.classList.add('is-paused');
+          status.textContent = '自动跳转已暂停';
+          pause.textContent = '继续跳转';
+          renderCountdown();
+        }
+      });
+      document.addEventListener('visibilitychange', () => { root.classList.toggle('is-hidden', document.hidden); });
+      window.addEventListener('pagehide', clearTimers, { once:true });
+    })();
+  </script>
+</body>
+</html>
